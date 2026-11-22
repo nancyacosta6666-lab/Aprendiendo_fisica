@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Aprendiendo Física: aprende física con explicaciones, simulaciones, calculadoras y evaluaciones interactivas.">
+<title>Aprendiendo Física | Explora la física</title>
+<style>
+:root{
+  --navy:#17243f;--blue:#4169d8;--blue2:#3152b5;--cyan:#dff5fa;
+  --violet:#eeeaff;--mint:#e4f7ef;--ink:#20283b;--muted:#68738a;
+  --bg:#f5f7fc;--white:#fff;--line:#e3e8f2;--green:#19845b;--red:#bd4858;
+  --shadow:0 12px 30px rgba(32,53,104,.08)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.header-inner{max-width:1160px;margin:auto;padding:12px 5%;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-size:1.35rem;font-weight:900;color:var(--navy);white-space:nowrap}
+.brand span{color:var(--blue)}
+nav{display:flex;gap:5px;overflow-x:auto}
+.nav-btn{border:0;background:transparent;color:var(--muted);font-weight:700;padding:9px 11px;border-radius:11px;white-space:nowrap}
+.nav-btn:hover,.nav-btn.active{background:var(--violet);color:var(--blue2)}
+main{width:min(1100px,90%);margin:30px auto 65px}
+.page{display:none}.page.active{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:20px;padding:clamp(25px,5vw,52px);border-radius:28px;background:linear-gradient(120deg,#e7edff,#e1f7fa 70%,#f0edff);overflow:hidden}
+.eyebrow{font-size:.76rem;font-weight:850;letter-spacing:.14em;color:var(--blue2)}
+h1{font-size:clamp(2.1rem,5vw,3.5rem);line-height:1.08;margin:12px 0}
+h2{font-size:clamp(1.55rem,3vw,2.1rem);margin:0 0 7px}
+h3{margin:0 0 7px}
+p{color:var(--muted)}
+.hero p{max-width:560px;font-size:1.05rem}
+.hero-art{text-align:center;font-size:clamp(6rem,16vw,10rem);filter:drop-shadow(0 14px 12px #526bb333)}
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750}
+.primary{background:var(--blue);color:#fff}.primary:hover{background:var(--blue2)}
+.secondary{background:var(--violet);color:var(--blue2)}.secondary:hover{background:#e2dcff}
+.section-head{margin:28px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card,.panel{background:var(--white);border:1px solid var(--line);border-radius:19px;padding:21px;box-shadow:var(--shadow)}
+.card-icon{font-size:2rem;margin-bottom:8px}
+.card p{margin:5px 0 14px}
+.card button{margin-top:3px}
+.panel{margin-top:17px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{font-weight:700;font-size:.92rem}
+.field{width:100%;padding:11px 12px;margin:6px 0 13px;border:1px solid #d7deeb;border-radius:11px;background:#fff;color:var(--ink)}
+.result{background:#edf5ff;border:1px solid #dce9ff;border-radius:14px;padding:14px;margin-top:12px}
+.result strong{color:var(--blue2);font-size:1.25rem}
+.muted{color:var(--muted)}
+.topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+.topic{background:white;border:1px solid var(--line);border-radius:14px;text-align:left;padding:15px;color:var(--ink)}
+.topic:hover,.topic.selected{border-color:var(--blue);background:#f7f8ff}
+.topic strong{display:block;color:var(--blue2)}
+.lesson{background:var(--cyan);padding:18px;border-radius:15px;margin-top:14px}
+.lesson[hidden],.hidden{display:none!important}
+.formula{display:inline-block;background:#f0edff;color:#493c9b;padding:5px 10px;border-radius:8px;font-weight:800;margin:4px 0}
+canvas{display:block;width:100%;height:220px;background:#fbfcff;border:1px solid var(--line);border-radius:13px;margin-top:12px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:#f6f7ff;border-radius:13px;padding:13px}
+.stat strong{display:block;font-size:1.45rem;color:var(--blue2)}
+.question{font-size:1.3rem;font-weight:800;margin:12px 0}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.answer{background:white;border:1px solid var(--line);border-radius:11px;padding:12px;text-align:left;color:var(--ink)}
+.answer:hover{border-color:var(--blue);background:#f7f8ff}
+.feedback{min-height:26px;font-weight:750;margin-top:10px}
+.good{color:var(--green)}.bad{color:var(--red)}
+.bar{height:11px;background:#e8eafa;border-radius:20px;overflow:hidden}.bar>span{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+footer{text-align:center;border-top:1px solid var(--line);padding:24px;color:var(--muted)}
+@media(max-width:760px){
+ .header-inner{align-items:flex-start;flex-direction:column;gap:8px}
+ nav{width:100%}
+ .hero{grid-template-columns:1fr}.hero-art{display:none}
+ .grid,.two-col{grid-template-columns:1fr}
+ .topic-grid,.answers{grid-template-columns:1fr}
+ .stat-row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<header><div class="header-inner">
+  <div class="brand">Aprendiendo <span>Física</span> ⚛</div>
+  <nav aria-label="Navegación principal">
+    <button class="nav-btn active" data-page="inicio">Inicio</button>
+    <button class="nav-btn" data-page="temas">Temas</button>
+    <button class="nav-btn" data-page="movimiento">Movimiento</button>
+    <button class="nav-btn" data-page="fuerzas">Fuerzas</button>
+    <button class="nav-btn" data-page="energia">Energía</button>
+    <button class="nav-btn" data-page="examen">Examen</button>
+    <button class="nav-btn" data-page="avance">Mi avance</button>
+  </nav>
+</div></header>
+
+<main>
+<section class="page active" id="inicio">
+  <div class="hero">
+    <div><div class="eyebrow">OBSERVA · EXPERIMENTA · COMPRENDE</div>
+      <h1>La física explica el mundo que nos rodea.</h1>
+      <p>Bienvenido a Aprendiendo Física: aprende conceptos fundamentales, prueba simulaciones y resuelve problemas paso a paso.</p>
+      <button class="btn primary" data-go="temas">Explorar temas →</button>
+    </div><div class="hero-art" aria-hidden="true">🪐</div>
+  </div>
+  <div class="section-head"><h2>Explora el laboratorio</h2><p>Herramientas para aprender física de forma práctica.</p></div>
+  <div class="grid">
+    <article class="card"><div class="card-icon">📘</div><h3>Conceptos y fórmulas</h3><p>Repasa movimiento, fuerzas, leyes de Newton y energía.</p><button class="btn secondary" data-go="temas">Ver temas</button></article>
+    <article class="card"><div class="card-icon">🚗</div><h3>Simulador de movimiento</h3><p>Cambia velocidad y tiempo para calcular distancia.</p><button class="btn secondary" data-go="movimiento">Abrir simulador</button></article>
+    <article class="card"><div class="card-icon">🧲</div><h3>Calculadora de fuerzas</h3><p>Aplica la segunda ley de Newton con tus propios datos.</p><button class="btn secondary" data-go="fuerzas">Calcular fuerza</button></article>
+  </div>
+  <div class="panel"><h3>¿Cómo usar Aprendiendo Física?</h3><p>1. Elige un tema y lee la explicación. 2. Introduce datos en las calculadoras. 3. Resuelve el examen y consulta tus resultados en “Mi avance”.</p><p><strong>Nota:</strong> Los simuladores son modelos educativos simplificados. Los resultados se muestran en unidades del Sistema Internacional cuando corresponde.</p></div>
+</section>
+
+<section class="page" id="temas">
+  <div class="section-head"><div class="eyebrow">BIBLIOTECA DE FÍSICA</div><h2>Temas y conceptos</h2><p>Selecciona un tema para consultar su explicación y fórmula principal.</p></div>
+  <div class="topic-grid">
+    <button class="topic" data-topic="mru"><strong>🚘 MRU</strong><span class="muted">Movimiento rectilíneo uniforme.</span></button>
+    <button class="topic" data-topic="mrua"><strong>🏎️ MRUA</strong><span class="muted">Movimiento con aceleración constante.</span></button>
+    <button class="topic" data-topic="newton"><strong>🍎 Leyes de Newton</strong><span class="muted">Relación entre fuerza y movimiento.</span></button>
+    <button class="topic" data-topic="energia"><strong>⚡ Energía mecánica</strong><span class="muted">Energía cinética y potencial.</span></button>
+    <button class="topic" data-topic="trabajo"><strong>🛠️ Trabajo mecánico</strong><span class="muted">Transferencia de energía por una fuerza.</span></button>
+    <button class="topic" data-topic="gravedad"><strong>🌎 Gravedad</strong><span class="muted">Atracción entre cuerpos con masa.</span></button>
+  </div>
+  <div class="lesson" id="lesson" hidden aria-live="polite"></div>
+</section>
+
+<section class="page" id="movimiento">
+  <div class="section-head"><div class="eyebrow">SIMULADOR Y CALCULADORA</div><h2>Movimiento rectilíneo</h2><p>Calcula la distancia recorrida en un movimiento rectilíneo uniforme (MRU).</p></div>
+  <div class="two-col">
+    <div class="panel">
+      <h3>Datos del movimiento</h3>
+      <label for="velocity">Velocidad (m/s)</label><input class="field" id="velocity" type="number" min="0" step="any" value="5">
+      <label for="time">Tiempo (segundos)</label><input class="field" id="time" type="number" min="0" step="any" value="8">
+      <button class="btn primary" id="calc-motion">Calcular distancia</button>
+      <div class="result" id="motion-result" aria-live="polite">Distancia: <strong>40 m</strong><br><span class="muted">d = v × t</span></div>
+    </div>
+    <div class="panel">
+      <h3>Representación del recorrido</h3>
+      <p class="muted">El punto se desplaza de forma uniforme en esta representación conceptual.</p>
+      <canvas id="motion-canvas" width="600" height="220" aria-label="Representación gráfica del movimiento"></canvas>
+      <div class="stat-row">
+        <div class="stat"><span class="muted">Velocidad</span><strong id="stat-v">5</strong><small>m/s</small></div>
+        <div class="stat"><span class="muted">Tiempo</span><strong id="stat-t">8</strong><small>s</small></div>
+        <div class="stat"><span class="muted">Distancia</span><strong id="stat-d">40</strong><small>m</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Calculadora de MRUA</h3><p class="muted">Calcula la velocidad final cuando conoces la velocidad inicial, la aceleración y el tiempo.</p>
+    <div class="two-col">
+      <div><label for="initial-v">Velocidad inicial (m/s)</label><input class="field" id="initial-v" type="number" step="any" value="2"></div>
+      <div><label for="acceleration">Aceleración (m/s²)</label><input class="field" id="acceleration" type="number" step="any" value="3"></div>
+      <div><label for="mrua-time">Tiempo (s)</label><input class="field" id="mrua-time" type="number" min="0" step="any" value="4"></div>
+    </div>
+    <button class="btn primary" id="calc-mrua">Calcular velocidad final</button>
+    <div class="result" id="mrua-result">Usa la fórmula <span class="formula">vf = vi + a × t</span></div>
+  </div>
+</section>
+
+<section class="page" id="fuerzas">
+  <div class="section-head"><div class="eyebrow">LEYES DE NEWTON</div><h2>Calculadora de fuerza</h2><p>Utiliza la segunda ley de Newton: la fuerza neta es igual a la masa por la aceleración.</p></div>
+  <div class="two-col">
+    <div class="panel">
+      <h3>Introduce los valores</h3>
+      <label for="mass">Masa (kg)</label><input class="field" id="mass" type="number" min="0" step="any" value="10">
+      <label for="force-acc">Aceleración (m/s²)</label><input class="field" id="force-acc" type="number" step="any" value="2">
+      <button class="btn primary" id="calc-force">Calcular fuerza</button>
+      <div class="result" id="force-result">F = m × a = <strong>20 N</strong></div>
+    </div>
+    <div class="panel">
+      <h3>Las tres leyes de Newton</h3>
+      <p><strong>Primera ley · Inercia:</strong> un objeto mantiene su estado de reposo o movimiento rectilíneo uniforme si la fuerza neta sobre él es cero.</p>
+      <p><strong>Segunda ley · Dinámica:</strong> la aceleración depende de la fuerza neta y de la masa. <span class="formula">F = m × a</span></p>
+      <p><strong>Tercera ley · Acción y reacción:</strong> cuando un cuerpo ejerce una fuerza sobre otro, el segundo ejerce una fuerza de igual magnitud y dirección opuesta sobre el primero.</p>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="energia">
+  <div class="section-head"><div class="eyebrow">TRABAJO Y ENERGÍA</div><h2>Calculadoras de energía</h2><p>Calcula energía cinética, energía potencial gravitatoria y trabajo mecánico.</p></div>
+  <div class="two-col">
+    <div class="panel">
+      <h3>⚡ Energía cinética</h3><p class="muted">Energía asociada al movimiento.</p>
+      <label for="kin-mass">Masa (kg)</label><input class="field" id="kin-mass" type="number" min="0" step="any" value="2">
+      <label for="kin-speed">Velocidad (m/s)</label><input class="field" id="kin-speed" type="number" min="0" step="any" value="3">
+      <button class="btn primary" id="calc-kin">Calcular Ec</button>
+      <div class="result" id="kin-result"><span class="formula">Ec = ½ × m × v²</span><br>Resultado: <strong>9 J</strong></div>
+    </div>
+    <div class="panel">
+      <h3>🏔️ Energía potencial</h3><p class="muted">Energía debida a la altura respecto a un nivel de referencia.</p>
+      <label for="pot-mass">Masa (kg)</label><input class="field" id="pot-mass" type="number" min="0" step="any" value="2">
+      <label for="height">Altura (m)</label><input class="field" id="height" type="number" min="0" step="any" value="5">
+      <button class="btn primary" id="calc-pot">Calcular Ep</button>
+      <div class="result" id="pot-result"><span class="formula">Ep = m × g × h</span><br>Resultado: <strong>98 J</strong> <small>(g = 9.8 m/s²)</small></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>🛠️ Trabajo mecánico</h3><p class="muted">Para una fuerza constante en la misma dirección del desplazamiento.</p>
+    <div class="two-col">
+      <div><label for="work-force">Fuerza (N)</label><input class="field" id="work-force" type="number" min="0" step="any" value="15"></div>
+      <div><label for="work-distance">Desplazamiento (m)</label><input class="field" id="work-distance" type="number" min="0" step="any" value="4"></div>
+    </div>
+    <button class="btn primary" id="calc-work">Calcular trabajo</button>
+    <div class="result" id="work-result"><span class="formula">W = F × d</span> Resultado: <strong>60 J</strong></div>
+  </div>
+</section>
+
+<section class="page" id="examen">
+  <div class="section-head"><div class="eyebrow">COMPRUEBA LO QUE APRENDISTE</div><h2>Evaluación de física</h2><p>Responde ocho preguntas. Recibirás tu puntuación al finalizar.</p></div>
+  <div class="panel" id="quiz-panel">
+    <div class="muted" id="quiz-count">Pregunta 1 de 8</div><div class="bar"><span id="quiz-bar"></span></div>
+    <div class="question" id="quiz-question"></div><div class="answers" id="quiz-answers"></div>
+    <div class="feedback" id="quiz-feedback" aria-live="polite"></div>
+  </div>
+  <div class="panel hidden" id="quiz-result">
+    <h3>Evaluación terminada</h3><div style="font-size:2.6rem;font-weight:900;color:var(--blue2)" id="quiz-score">0/8</div>
+    <p id="quiz-message"></p><button class="btn primary" id="retry-quiz">Repetir evaluación</button>
+  </div>
+</section>
+
+<section class="page" id="avance">
+  <div class="section-head"><div class="eyebrow">TU ACTIVIDAD</div><h2>Mi avance</h2><p>Consulta tus resultados guardados en este navegador.</p></div>
+  <div class="stat-row">
+    <div class="stat"><span class="muted">Cálculos realizados</span><strong id="calc-count">0</strong></div>
+    <div class="stat"><span class="muted">Último examen</span><strong id="last-score">—</strong></div>
+    <div class="stat"><span class="muted">Exámenes terminados</span><strong id="quiz-count-total">0</strong></div>
+  </div>
+  <div class="panel"><h3>Historial de aprendizaje</h3><p id="history-text">Aún no hay actividad registrada. Prueba una calculadora o realiza la evaluación.</p><button class="btn secondary" id="reset-stats">Borrar mi progreso</button></div>
+</section>
+</main>
+<footer>Aprendiendo Física · Aprende física explorando el mundo. 🔭</footer>
+
+<script>
+// Navegación de la página
+function go(page){
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===page));
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ if(page==="avance") updateStats();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+// Contenido educativo
+const topicData={
+ mru:["Movimiento rectilíneo uniforme (MRU)","Es un movimiento en línea recta con velocidad constante. En intervalos de tiempo iguales se recorren distancias iguales.","d = v × t","Ejemplo: si un ciclista avanza a 4 m/s durante 5 s, recorre 20 m."],
+ mrua:["Movimiento rectilíneo uniformemente acelerado (MRUA)","Es un movimiento en línea recta cuya aceleración permanece constante. La velocidad cambia en la misma cantidad por cada segundo.","vf = vi + a × t","Ejemplo: si parte a 2 m/s y acelera a 3 m/s² durante 4 s, alcanza 14 m/s."],
+ newton:["Leyes de Newton","Describen cómo se relacionan el movimiento de los objetos y las fuerzas. La segunda ley permite calcular la fuerza neta cuando se conocen masa y aceleración.","F = m × a","Ejemplo: una masa de 3 kg con aceleración de 2 m/s² tiene una fuerza neta de 6 N."],
+ energia:["Energía mecánica","Es la suma de la energía cinética (por movimiento) y la potencial (por posición o altura, en este caso).","Em = Ec + Ep","Ejemplo: un objeto puede tener energía potencial por estar elevado y energía cinética mientras se mueve."],
+ trabajo:["Trabajo mecánico","Se realiza trabajo cuando una fuerza produce un desplazamiento. En esta introducción consideramos fuerza y desplazamiento en la misma dirección.","W = F × d","Ejemplo: una fuerza de 10 N que desplaza un objeto 3 m realiza 30 J de trabajo."],
+ gravedad:["Gravedad","Es la interacción de atracción entre cuerpos con masa. Cerca de la superficie terrestre, la aceleración de la gravedad es aproximadamente 9.8 m/s².","g ≈ 9.8 m/s²","Ejemplo: en caída libre ideal, sin resistencia del aire, la velocidad cambia aproximadamente 9.8 m/s cada segundo."]
+};
+document.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll("[data-topic]").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");
+ const d=topicData[b.dataset.topic],box=document.getElementById("lesson");
+ box.innerHTML=`<h3>${d[0]}</h3><p>${d[1]}</p><div class="formula">${d[2]}</div><p><strong>${d[3]}</strong></p>`;box.hidden=false;
+}));
+
+// Datos guardados localmente
+const KEY="fisicalab-stats-v1";
+function readStats(){try{return JSON.parse(localStorage.getItem(KEY))||{calculations:0,quizzes:0,last:null}}catch(e){return{calculations:0,quizzes:0,last:null}}}
+let stats=readStats();
+function saveStats(){localStorage.setItem(KEY,JSON.stringify(stats))}
+function counted(){stats.calculations++;saveStats()}
+function updateStats(){
+ document.getElementById("calc-count").textContent=stats.calculations;
+ document.getElementById("last-score").textContent=stats.last===null?"—":stats.last+"/8";
+ document.getElementById("quiz-count-total").textContent=stats.quizzes;
+ document.getElementById("history-text").textContent=stats.calculations||stats.quizzes
+ ?`Has realizado ${stats.calculations} cálculos y terminado ${stats.quizzes} evaluaciones. ¡Sigue aprendiendo!`
+ :"Aún no hay actividad registrada. Prueba una calculadora o realiza la evaluación.";
+}
+document.getElementById("reset-stats").addEventListener("click",()=>{
+ if(confirm("¿Deseas borrar todo tu progreso guardado?")){stats={calculations:0,quizzes:0,last:null};saveStats();updateStats()}
+});
+
+// Validación numérica común
+function numberFrom(id){const v=document.getElementById(id).value;return v.trim()===""?NaN:Number(v)}
+function showError(id,msg){document.getElementById(id).innerHTML=`<span style="color:#bd4858">${msg}</span>`}
+function fmt(n){return Number(n.toFixed(4)).toString()}
+
+// MRU y gráfica
+const canvas=document.getElementById("motion-canvas"),ctx=canvas.getContext("2d");
+function drawMotion(distance){
+ const w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+ ctx.strokeStyle="#dce3f1";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(40,145);ctx.lineTo(w-35,145);ctx.stroke();
+ for(let i=0;i<=5;i++){const x=45+i*(w-90)/5;ctx.beginPath();ctx.moveTo(x,138);ctx.lineTo(x,152);ctx.stroke();ctx.fillStyle="#68738a";ctx.font="14px sans-serif";ctx.fillText(String(fmt(distance*i/5))+" m",x-18,175)}
+ const x=45+(Math.min(distance,100)/100)*(w-90);ctx.beginPath();ctx.arc(x,145,13,0,Math.PI*2);ctx.fillStyle="#4169d8";ctx.fill();
+ ctx.fillStyle="#20283b";ctx.font="bold 15px sans-serif";ctx.fillText("Inicio",35,112);ctx.fillText("Recorrido",w-120,112);
+}
+function calculateMotion(){
+ const v=numberFrom("velocity"),t=numberFrom("time");
+ if(!Number.isFinite(v)||!Number.isFinite(t)||v<0||t<0){showError("motion-result","Ingresa valores válidos mayores o iguales a cero.");return}
+ const d=v*t;document.getElementById("motion-result").innerHTML=`Distancia: <strong>${fmt(d)} m</strong><br><span class="muted">d = v × t = ${fmt(v)} × ${fmt(t)}</span>`;
+ document.getElementById("stat-v").textContent=fmt(v);document.getElementById("stat-t").textContent=fmt(t);document.getElementById("stat-d").textContent=fmt(d);
+ drawMotion(d);counted();
+}
+document.getElementById("calc-motion").addEventListener("click",calculateMotion);drawMotion(40);
+
+// MRUA
+document.getElementById("calc-mrua").addEventListener("click",()=>{
+ const vi=numberFrom("initial-v"),a=numberFrom("acceleration"),t=numberFrom("mrua-time");
+ if(![vi,a,t].every(Number.isFinite)||t<0){showError("mrua-result","Revisa los datos. El tiempo debe ser cero o mayor.");return}
+ const vf=vi+a*t;document.getElementById("mrua-result").innerHTML=`Velocidad final: <strong>${fmt(vf)} m/s</strong><br><span class="muted">vf = ${fmt(vi)} + (${fmt(a)} × ${fmt(t)})</span>`;counted();
+});
+
+// Segunda ley de Newton
+document.getElementById("calc-force").addEventListener("click",()=>{
+ const m=numberFrom("mass"),a=numberFrom("force-acc");
+ if(!Number.isFinite(m)||!Number.isFinite(a)||m<0){showError("force-result","La masa debe ser un número igual o mayor que cero.");return}
+ const f=m*a;document.getElementById("force-result").innerHTML=`Fuerza neta: <strong>${fmt(f)} N</strong><br><span class="muted">F = ${fmt(m)} × ${fmt(a)}</span>`;counted();
+});
+
+// Energías y trabajo
+document.getElementById("calc-kin").addEventListener("click",()=>{
+ const m=numberFrom("kin-mass"),v=numberFrom("kin-speed");
+ if(!Number.isFinite(m)||!Number.isFinite(v)||m<0||v<0){showError("kin-result","Masa y velocidad deben ser valores no negativos.");return}
+ const e=.5*m*v*v;document.getElementById("kin-result").innerHTML=`<span class="formula">Ec = ½ × m × v²</span><br>Energía cinética: <strong>${fmt(e)} J</strong>`;counted();
+});
+document.getElementById("calc-pot").addEventListener("click",()=>{
+ const m=numberFrom("pot-mass"),h=numberFrom("height");
+ if(!Number.isFinite(m)||!Number.isFinite(h)||m<0||h<0){showError("pot-result","Masa y altura deben ser valores no negativos.");return}
+ const e=m*9.8*h;document.getElementById("pot-result").innerHTML=`<span class="formula">Ep = m × g × h</span><br>Energía potencial: <strong>${fmt(e)} J</strong> <small>(g = 9.8 m/s²)</small>`;counted();
+});
+document.getElementById("calc-work").addEventListener("click",()=>{
+ const f=numberFrom("work-force"),d=numberFrom("work-distance");
+ if(!Number.isFinite(f)||!Number.isFinite(d)||f<0||d<0){showError("work-result","Fuerza y desplazamiento deben ser valores no negativos.");return}
+ const w=f*d;document.getElementById("work-result").innerHTML=`<span class="formula">W = F × d</span><br>Trabajo: <strong>${fmt(w)} J</strong>`;counted();
+});
+
+// Examen interactivo
+const questions=[
+ {q:"¿Qué describe el movimiento rectilíneo uniforme?",a:["Velocidad constante en línea recta","Aceleración que siempre aumenta","Movimiento en círculo","Reposo obligatorio"],c:0},
+ {q:"Un objeto recorre 30 m en 5 s. ¿Cuál es su velocidad media?",a:["5 m/s","6 m/s","25 m/s","150 m/s"],c:1},
+ {q:"¿Cuál es la unidad de fuerza en el Sistema Internacional?",a:["Joule","Watt","Newton","Metro"],c:2},
+ {q:"¿Qué expresa la segunda ley de Newton?",a:["F = m × a","d = v × t","Ep = m × g × h","W = P × t"],c:0},
+ {q:"¿Qué tipo de energía tiene un objeto por estar en movimiento?",a:["Potencial","Química","Térmica","Cinética"],c:3},
+ {q:"¿Cuál es la aceleración aproximada de la gravedad cerca de la superficie terrestre?",a:["3.2 m/s²","9.8 m/s²","15 m/s²","100 m/s²"],c:1},
+ {q:"¿En qué unidad se mide el trabajo mecánico?",a:["Newton","Metro","Joule","Kilogramo"],c:2},
+ {q:"Si una masa de 2 kg acelera a 3 m/s², ¿cuál es la fuerza neta?",a:["5 N","6 N","1.5 N","9 N"],c:1}
+];
+let qi=0,qscore=0,locked=false;
+function startQuiz(){qi=0;qscore=0;locked=false;document.getElementById("quiz-panel").classList.remove("hidden");document.getElementById("quiz-result").classList.add("hidden");renderQ()}
+function renderQ(){
+ const q=questions[qi];document.getElementById("quiz-count").textContent=`Pregunta ${qi+1} de ${questions.length}`;
+ document.getElementById("quiz-bar").style.width=(qi/questions.length*100)+"%";
+ document.getElementById("quiz-question").textContent=q.q;document.getElementById("quiz-feedback").textContent="";
+ const area=document.getElementById("quiz-answers");area.innerHTML="";
+ q.a.forEach((a,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=a;b.addEventListener("click",()=>answerQ(i));area.appendChild(b)});
+}
+function answerQ(i){
+ if(locked)return;locked=true;const q=questions[qi],fb=document.getElementById("quiz-feedback");
+ if(i===q.c){qscore++;fb.textContent="¡Correcto!";fb.className="feedback good"}else{fb.textContent="La respuesta correcta es: "+q.a[q.c];fb.className="feedback bad"}
+ document.querySelectorAll("#quiz-answers .answer").forEach(b=>b.disabled=true);
+ const next=document.createElement("button");next.className="btn primary";next.style.gridColumn="1/-1";next.textContent=qi===questions.length-1?"Ver resultado":"Siguiente pregunta";
+ next.addEventListener("click",()=>{qi++;if(qi<questions.length){locked=false;renderQ()}else finishQuiz()});document.getElementById("quiz-answers").appendChild(next);
+}
+function finishQuiz(){
+ stats.quizzes++;stats.last=qscore;saveStats();document.getElementById("quiz-panel").classList.add("hidden");document.getElementById("quiz-result").classList.remove("hidden");
+ document.getElementById("quiz-score").textContent=`${qscore}/8`;
+ document.getElementById("quiz-message").textContent=qscore===8?"¡Excelente! Dominas estos conceptos.":qscore>=5?"¡Buen trabajo! Repasa los temas que te resultaron difíciles.":"Sigue practicando: vuelve a las explicaciones y prueba otra vez.";
+ document.getElementById("quiz-bar").style.width="100%";
+}
+document.getElementById("retry-quiz").addEventListener("click",startQuiz);
+startQuiz();updateStats();
+</script>
+</body>
+</html>
